@@ -15,5 +15,7 @@ jobs:
           java-version: "21"
           cache: "sbt"
 
-      - name: X102
-        run: sbt test
+      - name: (3) sbt publish
+        run: sbt publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
