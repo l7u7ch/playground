@@ -13,6 +13,7 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "21"
+          cache: "sbt"
 
       - name: X102
         run: sbt test
