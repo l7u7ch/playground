@@ -5,10 +5,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: X100
+      - name: (1) actions/checkout@v4
         uses: actions/checkout@v4
 
-      - name: X101
+      - name: (2) actions/setup-java@v4
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
