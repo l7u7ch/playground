@@ -1,17 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Paper,
-  Slider,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
+import { Button } from "@mui/material";
+import { Divider } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { Paper } from "@mui/material";
+import { Slider } from "@mui/material";
+import { ToggleButton } from "@mui/material";
+import { ToggleButtonGroup } from "@mui/material";
+import { Typography } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckIcon from "@mui/icons-material/Check";
 import { generateStrings, PatternType } from "../lib/cvGenerator";
