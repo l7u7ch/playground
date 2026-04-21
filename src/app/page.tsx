@@ -1,3 +1,9 @@
+import { Box } from "@mui/material";
+
 export default function Home() {
-  return <div>Hello</div>;
+  return (
+    <>
+      <Box>Hello</Box>
+    </>
+  );
 }
