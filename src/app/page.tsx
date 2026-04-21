@@ -39,7 +39,6 @@ export default function Home() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        bgcolor: "grey.100",
         p: 2,
       }}
     >
@@ -61,7 +60,7 @@ export default function Home() {
           size="small"
           sx={{ mb: 3, flexWrap: "wrap", gap: 0.5 }}
         >
-          {(["cv", "vc", "cvc", "vcv", "cvcc", "ccvc"] as PatternType[]).map((p) => (
+          {(["mix", "cv", "vc", "cvc", "vcv", "cvcc", "ccvc"] as PatternType[]).map((p) => (
             <ToggleButton key={p} value={p} sx={{ fontFamily: "monospace", fontWeight: "bold" }}>
               {p.toUpperCase()}
             </ToggleButton>

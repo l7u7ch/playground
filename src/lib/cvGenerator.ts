@@ -1,9 +1,11 @@
-export type PatternType = "cv" | "vc" | "cvc" | "vcv" | "cvcc" | "ccvc";
+export type PatternType = "cv" | "vc" | "cvc" | "vcv" | "cvcc" | "ccvc" | "mix";
 
 const VOWELS = ["a", "e", "i", "o", "u"];
 const CONSONANTS = ["b", "d", "f", "g", "h", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z"];
 
-const PATTERN_TEMPLATES: Record<PatternType, ("C" | "V")[]> = {
+type BasePatternType = Exclude<PatternType, "mix">;
+
+const PATTERN_TEMPLATES: Record<BasePatternType, ("C" | "V")[]> = {
   cv: ["C", "V"],
   vc: ["V", "C"],
   cvc: ["C", "V", "C"],
@@ -12,12 +14,15 @@ const PATTERN_TEMPLATES: Record<PatternType, ("C" | "V")[]> = {
   ccvc: ["C", "C", "V", "C"],
 };
 
+const BASE_PATTERNS: BasePatternType[] = ["cv", "vc", "cvc", "vcv", "cvcc", "ccvc"];
+
 function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
 function generateOne(patternType: PatternType, length: number): string {
-  const template = PATTERN_TEMPLATES[patternType];
+  const resolved = patternType === "mix" ? pickRandom(BASE_PATTERNS) : patternType;
+  const template = PATTERN_TEMPLATES[resolved];
   let result = "";
   while (result.length < length) {
     for (const t of template) {
