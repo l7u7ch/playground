@@ -1,4 +1,5 @@
+.claude/
 .next/
 *.tsbuildinfo
-/node_modules/
 next-env.d.ts
+node_modules/
