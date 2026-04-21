@@ -16,7 +16,7 @@ import { generateStrings, PatternType } from "../lib/cvGenerator";
 
 export default function Home() {
   const [length, setLength] = useState<number>(8);
-  const [pattern, setPattern] = useState<PatternType>("cv");
+  const [pattern, setPattern] = useState<PatternType>("mix");
   const [count, setCount] = useState<number>(5);
   const [results, setResults] = useState<string[]>([]);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
