@@ -44,7 +44,7 @@ export default function Home() {
       }}
     >
       <Paper elevation={3} sx={{ maxWidth: 560, width: "100%", p: 4, borderRadius: 3 }}>
-        <Typography variant="h5" fontWeight="bold" gutterBottom>
+        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }} gutterBottom>
           CV Pattern Generator
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
@@ -106,9 +106,7 @@ export default function Home() {
                     alignItems: "center",
                   }}
                 >
-                  <Typography fontFamily="monospace" fontSize={16} letterSpacing={1}>
-                    {r}
-                  </Typography>
+                  <Typography sx={{ fontFamily: "monospace", fontSize: 16, letterSpacing: 1 }}>{r}</Typography>
                   <IconButton size="small" onClick={() => handleCopy(r, i)}>
                     {copiedIndex === i ? (
                       <CheckIcon fontSize="small" color="success" />
