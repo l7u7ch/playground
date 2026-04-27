@@ -19,9 +19,10 @@
 		"@biomejs/biome": "^2.4.13",
 		"@tailwindcss/postcss": "^4.2.4",
 		"@types/node": "^20.19.39",
-		"@types/react-dom": "^19.2.3",
 		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
 		"postcss": "^8.5.12",
+		"supabase": "^2.95.5",
 		"tailwindcss": "^4.2.4",
 		"typescript": "^5.9.3"
 	}
