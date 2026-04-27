@@ -1,3 +1,4 @@
+import "@/app/globals.css";
 import type { Metadata } from "next/types";
 
 export const metadata: Metadata = {
