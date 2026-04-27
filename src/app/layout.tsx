@@ -1,5 +1,6 @@
 import "@/app/globals.css";
 import type { Metadata } from "next/types";
+import { Providers } from "@/app/providers";
 
 export const metadata: Metadata = {
 	title: "MyApp",
@@ -7,12 +8,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
-}: Readonly<{
+}: {
 	children: React.ReactNode;
-}>) {
+}) {
 	return (
-		<html lang="ja">
-			<body>{children}</body>
+		<html lang="ja" suppressHydrationWarning>
+			<body className="bg-background text-foreground">
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	);
 }
