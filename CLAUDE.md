@@ -1,7 +1,8 @@
 - HeroUI React ドキュメントは https://heroui.com/react/llms.txt を参照すること
 - Drizzle ORM ドキュメントは https://orm.drizzle.team/llms.txt を参照すること
-- ディレクトリ構成: [docs/structure.md](docs/structure.md) を参照
+- ディレクトリ構成は [docs/structure.md](docs/structure.md) を参照すること
 - パスエイリアス: `@/*` → `./src/*`
-- 作業完了前に必ず `bun run build` でビルドを確認すること
-- 作業完了前に必ず `bunx biome check --write` を実行すること
+- 作業完了前に必ず以下を実行すること
+  - `bun run build`（ビルド確認）
+  - `bunx biome check --write`（lint / format）
 - 日本語で記述すること（専門用語は原著のまま）
