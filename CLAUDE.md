@@ -1,4 +1,5 @@
 - HeroUI React ドキュメントは https://heroui.com/react/llms.txt を参照すること
+- Drizzle ORM ドキュメントは https://orm.drizzle.team/llms.txt を参照すること
 - ディレクトリ構成: [docs/structure.md](docs/structure.md) を参照
 - パスエイリアス: `@/*` → `./src/*`
 - 作業完了前に必ず `bun run build` でビルドを確認すること
