@@ -2,7 +2,7 @@
 
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { db } from "@/lib/db";
+import { getDb } from "@/lib/db";
 import { users } from "@/schema";
 
 export type User = {
@@ -37,7 +37,7 @@ export async function createUser(
 			: null;
 
 	try {
-		const [user] = await db
+		const [user] = await getDb()
 			.insert(users)
 			.values({ name: name.trim(), age, email })
 			.returning();
@@ -57,7 +57,7 @@ export async function updateUser(
 	}
 
 	try {
-		const [user] = await db
+		const [user] = await getDb()
 			.update(users)
 			.set({ name: data.name.trim(), age: data.age, email: data.email })
 			.where(eq(users.id, id))
@@ -71,7 +71,7 @@ export async function updateUser(
 
 export async function deleteUser(id: number): Promise<ActionResult> {
 	try {
-		await db.delete(users).where(eq(users.id, id));
+		await getDb().delete(users).where(eq(users.id, id));
 		revalidatePath("/");
 		return { success: true, data: undefined };
 	} catch {
