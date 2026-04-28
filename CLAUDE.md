@@ -1,5 +1,5 @@
-- Use HeroUI React documentation from https://heroui.com/react/llms.txt
-- Always run `bunx biome check --write` before finishing
-- Always run `bun run build` to verify the build before finishing
-- Path alias: `@/*` → `./src/*`
-- Directory structure: See [docs/structure.md](docs/structure.md)
+- HeroUI React ドキュメントは https://heroui.com/react/llms.txt を参照すること
+- ディレクトリ構成: [docs/structure.md](docs/structure.md) を参照
+- パスエイリアス: `@/*` → `./src/*`
+- 作業完了前に必ず `bun run build` でビルドを確認すること
+- 作業完了前に必ず `bunx biome check --write` を実行すること
