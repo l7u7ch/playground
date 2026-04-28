@@ -1,10 +1,8 @@
 ---
 title: ディレクトリ構成
 description: プロジェクトのディレクトリ構成と各ファイルの役割を示すドキュメント
-updated: 2026-04-29
+updated: 2026-04-29 04:14
 ---
-
-# Directory Structure
 
 ```
 .
