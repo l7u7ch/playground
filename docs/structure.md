@@ -13,15 +13,12 @@ updated: 2026-04-29 04:14
 ├── docs/
 │   └── structure.md                   — このファイル: プロジェクト構成ドキュメント
 ├── src/
-│   ├── app/                           — Next.js App Router のページ、レイアウト、サーバーアクション
-│   │   ├── actions.ts                 — サーバーアクション: createUser、updateUser、deleteUser（パス再検証付き）; User 型・ActionResult<T> 型をエクスポート
+│   ├── app/                           — Next.js App Router のページとレイアウト
 │   │   ├── globals.css                — グローバルスタイル: Tailwind CSS と HeroUI スタイルのインポート
 │   │   ├── layout.tsx                 — ルートレイアウト: lang="ja"、ダークモードクラス、メタデータ、globals.css のインポート
-│   │   └── page.tsx                   — ホームページ（Server Component）: 現在はプレースホルダー実装
-│   ├── components/                    — 再利用可能な UI コンポーネント
-│   │   ├── add-user-form.tsx          — HeroUI の Input と Button を使ったユーザー追加フォーム
-│   │   ├── edit-user-modal.tsx        — HeroUI の Modal を使った既存ユーザー編集モーダル
-│   │   └── user-table.tsx             — クライアントコンポーネント: useOptimistic による即時 UI 更新とカスタムインライン削除確認モーダルを備えたユーザー一覧テーブル
+│   │   └── page.tsx                   — ホームページ（Server Component）: users テーブルの全件取得とテーブル表示
+│   ├── lib/
+│   │   └── db.ts                      — Drizzle ORM クライアントファクトリ: DATABASE_URL から postgres 接続を生成して返す
 │   └── schema.ts                      — Drizzle ORM スキーマ: users テーブル（id, name, age, email）を定義
 ├── .env.local                         — 環境変数: DATABASE_URL など（git 管理外）
 ├── biome.json                         — Biome 設定: フォーマット（タブ/ダブルクォート）・リント・インポート整序
