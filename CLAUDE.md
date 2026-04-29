@@ -6,3 +6,4 @@
   - `bun run build`（ビルド確認）
   - `bunx biome check --write`（lint / format）
 - 日本語で記述すること（専門用語は原著のまま）
+- コードの変更に伴い `docs/` の内容が古くなった場合は必ず更新すること
