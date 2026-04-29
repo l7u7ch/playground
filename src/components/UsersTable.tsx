@@ -12,6 +12,7 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { AddUserModal } from "@/components/AddUserModal";
 
 type User = {
 	id: number;
@@ -64,13 +65,16 @@ export function UsersTable({ rows }: { rows: User[] }) {
 
 	return (
 		<div className="space-y-4">
-			<input
-				type="text"
-				value={globalFilter}
-				onChange={(e) => setGlobalFilter(e.target.value)}
-				placeholder="検索..."
-				className="border px-3 py-1 rounded text-sm w-64"
-			/>
+			<div className="flex items-center gap-4">
+				<input
+					type="text"
+					value={globalFilter}
+					onChange={(e) => setGlobalFilter(e.target.value)}
+					placeholder="検索..."
+					className="border px-3 py-1 rounded text-sm w-64"
+				/>
+				<AddUserModal />
+			</div>
 
 			<table className="w-full text-sm border-collapse">
 				<thead>
