@@ -1,15 +1,9 @@
-import { UsersTable } from "@/components/UsersTable";
-import { getDb } from "@/lib/db";
-import { users } from "@/schema";
+"use client";
 
-export const dynamic = "force-dynamic";
-
-export default async function Home() {
-	const rows = await getDb().select().from(users);
-
+export default function Home() {
 	return (
-		<main className="container mx-auto max-w-4xl p-6">
-			<UsersTable rows={rows} />
-		</main>
+		<div className="min-h-screen py-12">
+			<div className="mx-auto max-w-3xl  shadow-md rounded-sm"></div>
+		</div>
 	);
 }
