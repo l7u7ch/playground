@@ -1,7 +1,7 @@
 ---
 title: ディレクトリ構成
 description: プロジェクトのディレクトリ構成と各ファイルの役割を示すドキュメント
-updated: 2026-04-29 09:49
+updated: 2026-04-29
 ---
 
 ```
@@ -16,8 +16,10 @@ updated: 2026-04-29 09:49
 │   ├── app/                           — Next.js App Router のページとレイアウト
 │   │   ├── globals.css                — グローバルスタイル: Tailwind CSS と HeroUI スタイルのインポート
 │   │   ├── layout.tsx                 — ルートレイアウト: lang="ja"、ダークモードクラス、メタデータ、globals.css のインポート
+│   │   ├── actions.ts                 — Server Actions: addUser（フォームデータから users テーブルへの挿入）
 │   │   └── page.tsx                   — ホームページ（Server Component）: users テーブルの全件取得とテーブル表示
 │   ├── components/
+│   │   ├── AddUserModal.tsx           — ユーザー追加モーダル（HeroUI Modal + Form）の Client Component
 │   │   └── UsersTable.tsx             — TanStack Table を使用したユーザー一覧の Client Component
 │   ├── lib/
 │   │   └── db.ts                      — Drizzle ORM クライアントファクトリ: DATABASE_URL から postgres 接続を生成して返す
