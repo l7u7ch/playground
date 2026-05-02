@@ -73,7 +73,7 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 			{
 				accessorKey: "deadline",
 				header: () => (
-					<span className="inline-flex items-center gap-1 ">
+					<span className="inline-flex items-center gap-1">
 						<ToggleButton
 							size="sm"
 							onClick={(e) => {
@@ -125,12 +125,12 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 					value={globalFilter}
 					onChange={(e) => setGlobalFilter(e.target.value)}
 					placeholder="検索..."
-					className="border px-3 py-1 rounded text-sm w-64"
+					className="w-64 rounded border px-3 py-1 text-sm"
 				/>
 				<AddTodoModal />
 			</div>
 
-			<table className="w-full text-sm border-collapse">
+			<table className="w-full border-collapse text-sm">
 				<thead>
 					{table.getHeaderGroups().map((headerGroup) => (
 						<tr key={headerGroup.id}>
@@ -138,7 +138,7 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 								<th
 									key={header.id}
 									onClick={header.column.getToggleSortingHandler()}
-									className="border px-4 py-2 text-left cursor-pointer select-none"
+									className="cursor-pointer border px-4 py-2 text-left select-none"
 								>
 									{flexRender(
 										header.column.columnDef.header,
@@ -172,7 +172,7 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 					type="button"
 					onClick={() => table.previousPage()}
 					disabled={!table.getCanPreviousPage()}
-					className="border px-3 py-1 rounded disabled:opacity-40"
+					className="rounded border px-3 py-1 disabled:opacity-40"
 				>
 					前へ
 				</button>
@@ -183,7 +183,7 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 					type="button"
 					onClick={() => table.nextPage()}
 					disabled={!table.getCanNextPage()}
-					className="border px-3 py-1 rounded disabled:opacity-40"
+					className="rounded border px-3 py-1 disabled:opacity-40"
 				>
 					次へ
 				</button>
@@ -196,7 +196,7 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 							pageSize: Number(e.target.value),
 						}))
 					}
-					className="border px-2 py-1 rounded"
+					className="rounded border px-2 py-1"
 				>
 					{[10, 20, 50].map((size) => (
 						<option key={size} value={size}>
