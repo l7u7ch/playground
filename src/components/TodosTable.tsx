@@ -15,12 +15,40 @@ import {
 import { useMemo, useState } from "react";
 import { AddTodoModal } from "@/components/AddTodoModal";
 
+type Priority = "critical" | "high" | "medium" | "low" | "lowest";
+
 type Todo = {
 	id: number;
 	title: string;
 	completed: boolean;
 	createdAt: Date;
 	deadline: Date | null;
+	priority: Priority;
+};
+
+const PRIORITY_ORDER: Record<Priority, number> = {
+	critical: 0,
+	high: 1,
+	medium: 2,
+	low: 3,
+	lowest: 4,
+};
+
+const PRIORITY_LABEL: Record<Priority, string> = {
+	critical: "Critical",
+	high: "High",
+	medium: "Medium",
+	low: "Low",
+	lowest: "Lowest",
+};
+
+const PRIORITY_CLASS: Record<Priority, string> = {
+	critical: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
+	high: "bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300",
+	medium:
+		"bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
+	low: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
+	lowest: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
 };
 
 function formatRelativeTime(date: Date): string {
@@ -69,6 +97,23 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 				accessorKey: "createdAt",
 				header: "作成日時",
 				cell: ({ getValue }) => (getValue() as Date).toLocaleString("ja-JP"),
+			},
+			{
+				accessorKey: "priority",
+				header: "優先度",
+				sortingFn: (rowA, rowB) =>
+					PRIORITY_ORDER[rowA.original.priority] -
+					PRIORITY_ORDER[rowB.original.priority],
+				cell: ({ getValue }) => {
+					const p = getValue() as Priority;
+					return (
+						<span
+							className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${PRIORITY_CLASS[p]}`}
+						>
+							{PRIORITY_LABEL[p]}
+						</span>
+					);
+				},
 			},
 			{
 				accessorKey: "deadline",

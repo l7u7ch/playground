@@ -1,0 +1,78 @@
+{
+	"id": "478bbca3-c1e1-49db-9c4e-1517b4dbb48d",
+	"prevId": "7fa52035-fb7b-4d22-a95f-7dc3c22039b1",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.todos": {
+			"name": "todos",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"completed": {
+					"name": "completed",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"deadline": {
+					"name": "deadline",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"priority": {
+					"name": "priority",
+					"type": "priority",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'medium'"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		}
+	},
+	"enums": {
+		"public.priority": {
+			"name": "priority",
+			"schema": "public",
+			"values": ["critical", "high", "medium", "low", "lowest"]
+		}
+	},
+	"schemas": {},
+	"sequences": {},
+	"roles": {},
+	"policies": {},
+	"views": {},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
+}
