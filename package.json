@@ -2,7 +2,8 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start"
+		"start": "next start",
+		"format": "prettier --write \"**/*.{jsx,tsx}\" && biome check --write ."
 	},
 	"dependencies": {
 		"@blocknote/core": "^0.49.0",
