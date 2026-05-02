@@ -1,5 +1,6 @@
 "use client";
 
+import { ToggleButton } from "@heroui/react";
 import {
 	type ColumnDef,
 	flexRender,
@@ -72,18 +73,17 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 			{
 				accessorKey: "deadline",
 				header: () => (
-					<span className="inline-flex items-center gap-1">
-						締め切り
-						<button
-							type="button"
+					<span className="inline-flex items-center gap-1 ">
+						<ToggleButton
+							size="sm"
 							onClick={(e) => {
 								e.stopPropagation();
 								setShowRelative((prev) => !prev);
 							}}
-							className="text-xs opacity-60 hover:opacity-100 border rounded px-1"
 						>
-							{showRelative ? "絶対表示" : "相対表示"}
-						</button>
+							{showRelative ? "A" : "B"}
+						</ToggleButton>
+						締め切り
 					</span>
 				),
 				cell: ({ getValue, row }) => {
