@@ -4,6 +4,11 @@ import { revalidatePath } from "next/cache";
 import { getDb } from "@/lib/db";
 import { todos } from "@/schema";
 
+export async function deleteTodo(id: number) {
+	await getDb().delete(todos).where(eq(todos.id, id));
+	revalidatePath("/");
+}
+
 type Priority = "critical" | "high" | "medium" | "low" | "lowest";
 
 export async function updateTodoPriority(id: number, priority: Priority) {
