@@ -1,5 +1,5 @@
 import { TodosTable } from "@/components/TodosTable";
-import { getDb } from "@/lib/db";
+import { getDb } from "@/inbox/db";
 import { todos } from "@/schema";
 
 export const dynamic = "force-dynamic";

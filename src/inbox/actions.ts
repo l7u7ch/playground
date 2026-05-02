@@ -1,7 +1,7 @@
 "use server";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { getDb } from "@/lib/db";
+import { getDb } from "@/inbox/db";
 import { todos } from "@/schema";
 
 export async function deleteTodo(id: number) {

@@ -10,11 +10,11 @@ import {
 	type VisibilityState,
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useState, useTransition } from "react";
-import { deleteTodo } from "@/app/actions";
 import { AddTodoModal } from "@/components/AddTodoModal";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { EditTodoModal } from "@/components/EditTodoModal";
 import { COLUMN_LABELS, type Todo, useColumns } from "@/components/useColumns";
+import { deleteTodo } from "@/inbox/actions";
 
 type ContextMenuState = { x: number; y: number; todoId: number };
 

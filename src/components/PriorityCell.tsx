@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { updateTodoPriority } from "@/app/actions";
+import { updateTodoPriority } from "@/inbox/actions";
 
 export type Priority = "critical" | "high" | "medium" | "low" | "lowest";
 

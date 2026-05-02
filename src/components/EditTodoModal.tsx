@@ -9,8 +9,8 @@ import {
 	TextField,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { updateTodo } from "@/app/actions";
 import type { Todo } from "@/components/useColumns";
+import { updateTodo } from "@/inbox/actions";
 
 interface EditTodoModalProps {
 	todo: Todo;

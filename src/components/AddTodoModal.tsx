@@ -9,7 +9,7 @@ import {
 	TextField,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { addTodo } from "@/app/actions";
+import { addTodo } from "@/inbox/actions";
 
 export function AddTodoModal() {
 	const router = useRouter();
