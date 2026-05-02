@@ -12,37 +12,37 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { AddUserModal } from "@/components/AddUserModal";
+import { AddTodoModal } from "@/components/AddTodoModal";
 
-type User = {
+type Todo = {
 	id: number;
-	name: string;
-	age: number | null;
-	email: string | null;
+	title: string;
+	completed: boolean;
+	createdAt: Date;
 };
 
-const columns: ColumnDef<User>[] = [
+const columns: ColumnDef<Todo>[] = [
 	{
 		accessorKey: "id",
 		header: "ID",
 	},
 	{
-		accessorKey: "name",
-		header: "名前",
+		accessorKey: "title",
+		header: "タイトル",
 	},
 	{
-		accessorKey: "age",
-		header: "年齢",
-		cell: ({ getValue }) => getValue() ?? "—",
+		accessorKey: "completed",
+		header: "完了",
+		cell: ({ getValue }) => (getValue() ? "✓" : "—"),
 	},
 	{
-		accessorKey: "email",
-		header: "メール",
-		cell: ({ getValue }) => getValue() ?? "—",
+		accessorKey: "createdAt",
+		header: "作成日時",
+		cell: ({ getValue }) => (getValue() as Date).toLocaleString("ja-JP"),
 	},
 ];
 
-export function UsersTable({ rows }: { rows: User[] }) {
+export function TodosTable({ rows }: { rows: Todo[] }) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
 	const [pagination, setPagination] = useState<PaginationState>({
@@ -73,7 +73,7 @@ export function UsersTable({ rows }: { rows: User[] }) {
 					placeholder="検索..."
 					className="border px-3 py-1 rounded text-sm w-64"
 				/>
-				<AddUserModal />
+				<AddTodoModal />
 			</div>
 
 			<table className="w-full text-sm border-collapse">

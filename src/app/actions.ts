@@ -1,20 +1,12 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/lib/db";
-import { users } from "@/schema";
+import { todos } from "@/schema";
 
-export async function addUser(formData: FormData) {
-	const name = formData.get("name") as string;
-	const ageRaw = formData.get("age");
-	const email = (formData.get("email") as string) || null;
+export async function addTodo(formData: FormData) {
+	const title = formData.get("title") as string;
 
-	await getDb()
-		.insert(users)
-		.values({
-			name,
-			age: ageRaw ? Number(ageRaw) : null,
-			email,
-		});
+	await getDb().insert(todos).values({ title });
 
 	revalidatePath("/");
 }
