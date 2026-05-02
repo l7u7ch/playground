@@ -1,7 +1,15 @@
 "use server";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/lib/db";
 import { todos } from "@/schema";
+
+type Priority = "critical" | "high" | "medium" | "low" | "lowest";
+
+export async function updateTodoPriority(id: number, priority: Priority) {
+	await getDb().update(todos).set({ priority }).where(eq(todos.id, id));
+	revalidatePath("/");
+}
 
 export async function addTodo(formData: FormData) {
 	const title = formData.get("title") as string;

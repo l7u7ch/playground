@@ -12,7 +12,8 @@ import {
 	type SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
+import { updateTodoPriority } from "@/app/actions";
 import { AddTodoModal } from "@/components/AddTodoModal";
 
 type Priority = "critical" | "high" | "medium" | "low" | "lowest";
@@ -50,6 +51,29 @@ const PRIORITY_CLASS: Record<Priority, string> = {
 	low: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
 	lowest: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
 };
+
+function PriorityCell({ id, priority }: { id: number; priority: Priority }) {
+	const [isPending, startTransition] = useTransition();
+	return (
+		<select
+			value={priority}
+			disabled={isPending}
+			onChange={(e) => {
+				const next = e.target.value as Priority;
+				startTransition(() => {
+					updateTodoPriority(id, next);
+				});
+			}}
+			className={`cursor-pointer rounded border-0 px-2 py-0.5 text-xs font-medium disabled:opacity-50 ${PRIORITY_CLASS[priority]}`}
+		>
+			{(Object.keys(PRIORITY_LABEL) as Priority[]).map((key) => (
+				<option key={key} value={key}>
+					{PRIORITY_LABEL[key]}
+				</option>
+			))}
+		</select>
+	);
+}
 
 function formatRelativeTime(date: Date): string {
 	const diffMs = date.getTime() - Date.now();
@@ -104,16 +128,12 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 				sortingFn: (rowA, rowB) =>
 					PRIORITY_ORDER[rowA.original.priority] -
 					PRIORITY_ORDER[rowB.original.priority],
-				cell: ({ getValue }) => {
-					const p = getValue() as Priority;
-					return (
-						<span
-							className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${PRIORITY_CLASS[p]}`}
-						>
-							{PRIORITY_LABEL[p]}
-						</span>
-					);
-				},
+				cell: ({ getValue, row }) => (
+					<PriorityCell
+						id={row.original.id}
+						priority={getValue() as Priority}
+					/>
+				),
 			},
 			{
 				accessorKey: "deadline",
