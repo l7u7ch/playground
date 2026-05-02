@@ -11,6 +11,7 @@ import {
 	type PaginationState,
 	type SortingState,
 	useReactTable,
+	type VisibilityState,
 } from "@tanstack/react-table";
 import { useMemo, useState, useTransition } from "react";
 import { updateTodoPriority } from "@/app/actions";
@@ -25,6 +26,15 @@ type Todo = {
 	createdAt: Date;
 	deadline: Date | null;
 	priority: Priority;
+};
+
+const COLUMN_LABELS: Record<string, string> = {
+	id: "ID",
+	title: "タイトル",
+	completed: "完了",
+	createdAt: "作成日時",
+	priority: "優先度",
+	deadline: "締め切り",
 };
 
 const PRIORITY_ORDER: Record<Priority, number> = {
@@ -101,6 +111,8 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 		pageSize: 10,
 	});
 	const [showRelative, setShowRelative] = useState(false);
+	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+	const [showColumnMenu, setShowColumnMenu] = useState(false);
 
 	const columns = useMemo<ColumnDef<Todo>[]>(
 		() => [
@@ -172,10 +184,11 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 	const table = useReactTable({
 		data: rows,
 		columns,
-		state: { sorting, globalFilter, pagination },
+		state: { sorting, globalFilter, pagination, columnVisibility },
 		onSortingChange: setSorting,
 		onGlobalFilterChange: setGlobalFilter,
 		onPaginationChange: setPagination,
+		onColumnVisibilityChange: setColumnVisibility,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
@@ -193,6 +206,32 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 					className="w-64 rounded border px-3 py-1 text-sm"
 				/>
 				<AddTodoModal />
+				<div className="relative ml-auto">
+					<button
+						type="button"
+						onClick={() => setShowColumnMenu((prev) => !prev)}
+						className="rounded border px-3 py-1 text-sm"
+					>
+						カラム ▾
+					</button>
+					{showColumnMenu && (
+						<div className="absolute right-0 z-10 mt-1 rounded border bg-white p-2 shadow dark:bg-gray-900">
+							{table.getAllColumns().map((column) => (
+								<label
+									key={column.id}
+									className="flex cursor-pointer items-center gap-2 px-2 py-1 text-sm"
+								>
+									<input
+										type="checkbox"
+										checked={column.getIsVisible()}
+										onChange={column.getToggleVisibilityHandler()}
+									/>
+									{COLUMN_LABELS[column.id] ?? column.id}
+								</label>
+							))}
+						</div>
+					)}
+				</div>
 			</div>
 
 			<table className="w-full border-collapse text-sm">
