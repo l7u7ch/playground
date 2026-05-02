@@ -73,7 +73,7 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 			{
 				accessorKey: "deadline",
 				header: () => (
-					<span className="inline-flex items-center gap-1">
+					<>
 						<ToggleButton
 							size="sm"
 							onClick={(e) => {
@@ -84,7 +84,7 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 							{showRelative ? "A" : "B"}
 						</ToggleButton>
 						締め切り
-					</span>
+					</>
 				),
 				cell: ({ getValue, row }) => {
 					const v = getValue() as Date | null;
@@ -140,15 +140,19 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 									onClick={header.column.getToggleSortingHandler()}
 									className="cursor-pointer border px-4 py-2 text-left select-none"
 								>
-									{flexRender(
-										header.column.columnDef.header,
-										header.getContext(),
-									)}
-									{header.column.getIsSorted() === "asc"
-										? " ↑"
-										: header.column.getIsSorted() === "desc"
-											? " ↓"
-											: " ⇅"}
+									<div className="flex items-center justify-between">
+										{flexRender(
+											header.column.columnDef.header,
+											header.getContext(),
+										)}
+										<span>
+											{header.column.getIsSorted() === "asc"
+												? "↑"
+												: header.column.getIsSorted() === "desc"
+													? "↓"
+													: "⇅"}
+										</span>
+									</div>
 								</th>
 							))}
 						</tr>
