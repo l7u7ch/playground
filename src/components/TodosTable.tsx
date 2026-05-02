@@ -6,9 +6,7 @@ import {
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
-	getPaginationRowModel,
 	getSortedRowModel,
-	type PaginationState,
 	type SortingState,
 	useReactTable,
 	type VisibilityState,
@@ -106,10 +104,6 @@ function formatRelativeTime(date: Date): string {
 export function TodosTable({ rows }: { rows: Todo[] }) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [globalFilter, setGlobalFilter] = useState("");
-	const [pagination, setPagination] = useState<PaginationState>({
-		pageIndex: 0,
-		pageSize: 10,
-	});
 	const [showRelative, setShowRelative] = useState(false);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 	const [showColumnMenu, setShowColumnMenu] = useState(false);
@@ -184,15 +178,13 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 	const table = useReactTable({
 		data: rows,
 		columns,
-		state: { sorting, globalFilter, pagination, columnVisibility },
+		state: { sorting, globalFilter, columnVisibility },
 		onSortingChange: setSorting,
 		onGlobalFilterChange: setGlobalFilter,
-		onPaginationChange: setPagination,
 		onColumnVisibilityChange: setColumnVisibility,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
 	});
 
 	return (
@@ -274,45 +266,6 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 					))}
 				</tbody>
 			</table>
-
-			<div className="flex items-center gap-4 text-sm">
-				<button
-					type="button"
-					onClick={() => table.previousPage()}
-					disabled={!table.getCanPreviousPage()}
-					className="rounded border px-3 py-1 disabled:opacity-40"
-				>
-					前へ
-				</button>
-				<span>
-					{table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
-				</span>
-				<button
-					type="button"
-					onClick={() => table.nextPage()}
-					disabled={!table.getCanNextPage()}
-					className="rounded border px-3 py-1 disabled:opacity-40"
-				>
-					次へ
-				</button>
-				<select
-					value={pagination.pageSize}
-					onChange={(e) =>
-						setPagination((prev) => ({
-							...prev,
-							pageIndex: 0,
-							pageSize: Number(e.target.value),
-						}))
-					}
-					className="rounded border px-2 py-1"
-				>
-					{[10, 20, 50].map((size) => (
-						<option key={size} value={size}>
-							{size} 件
-						</option>
-					))}
-				</select>
-			</div>
 		</div>
 	);
 }
