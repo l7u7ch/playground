@@ -11,7 +11,7 @@ import {
 	type SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AddTodoModal } from "@/components/AddTodoModal";
 
 type Todo = {
@@ -22,34 +22,23 @@ type Todo = {
 	deadline: Date | null;
 };
 
-const columns: ColumnDef<Todo>[] = [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "title",
-		header: "タイトル",
-	},
-	{
-		accessorKey: "completed",
-		header: "完了",
-		cell: ({ getValue }) => (getValue() ? "✓" : "—"),
-	},
-	{
-		accessorKey: "createdAt",
-		header: "作成日時",
-		cell: ({ getValue }) => (getValue() as Date).toLocaleString("ja-JP"),
-	},
-	{
-		accessorKey: "deadline",
-		header: "締め切り",
-		cell: ({ getValue }) => {
-			const v = getValue() as Date | null;
-			return v ? v.toLocaleString("ja-JP") : "—";
-		},
-	},
-];
+function formatRelativeTime(date: Date): string {
+	const diffMs = date.getTime() - Date.now();
+	const sign = diffMs >= 0 ? "+" : "-";
+	const abs = Math.abs(diffMs);
+
+	const totalMinutes = Math.floor(abs / 60_000);
+	const days = Math.floor(totalMinutes / 1440);
+	const hours = Math.floor((totalMinutes % 1440) / 60);
+	const minutes = totalMinutes % 60;
+
+	if (days > 0 && hours > 0) return `${sign}${days}日${hours}時間`;
+	if (days > 0) return `${sign}${days}日`;
+	if (hours > 0 && minutes > 0) return `${sign}${hours}時間${minutes}分`;
+	if (hours > 0) return `${sign}${hours}時間`;
+	if (minutes > 0) return `${sign}${minutes}分`;
+	return "±0分";
+}
 
 export function TodosTable({ rows }: { rows: Todo[] }) {
 	const [sorting, setSorting] = useState<SortingState>([]);
@@ -58,6 +47,62 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 		pageIndex: 0,
 		pageSize: 10,
 	});
+	const [showRelative, setShowRelative] = useState(false);
+
+	const columns = useMemo<ColumnDef<Todo>[]>(
+		() => [
+			{
+				accessorKey: "id",
+				header: "ID",
+			},
+			{
+				accessorKey: "title",
+				header: "タイトル",
+			},
+			{
+				accessorKey: "completed",
+				header: "完了",
+				cell: ({ getValue }) => (getValue() ? "✓" : "—"),
+			},
+			{
+				accessorKey: "createdAt",
+				header: "作成日時",
+				cell: ({ getValue }) => (getValue() as Date).toLocaleString("ja-JP"),
+			},
+			{
+				accessorKey: "deadline",
+				header: () => (
+					<span className="inline-flex items-center gap-1">
+						締め切り
+						<button
+							type="button"
+							onClick={(e) => {
+								e.stopPropagation();
+								setShowRelative((prev) => !prev);
+							}}
+							className="text-xs opacity-60 hover:opacity-100 border rounded px-1"
+						>
+							{showRelative ? "絶対表示" : "相対表示"}
+						</button>
+					</span>
+				),
+				cell: ({ getValue, row }) => {
+					const v = getValue() as Date | null;
+					if (!v) return "—";
+					const isOverdue = v < new Date() && !row.original.completed;
+					const text = showRelative
+						? formatRelativeTime(v)
+						: v.toLocaleString("ja-JP");
+					return isOverdue ? (
+						<span className="inline-flex items-center gap-1">🔴 {text}</span>
+					) : (
+						text
+					);
+				},
+			},
+		],
+		[showRelative],
+	);
 
 	const table = useReactTable({
 		data: rows,
