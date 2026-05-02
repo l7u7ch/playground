@@ -1,7 +1,7 @@
 ---
 title: ディレクトリ構成
 description: プロジェクトのディレクトリ構成と各ファイルの役割を示すドキュメント
-updated: 2026-05-02
+updated: 2026-05-03
 ---
 
 ```
@@ -19,11 +19,14 @@ updated: 2026-05-02
 │   ├── app/                           — Next.js App Router のページとレイアウト
 │   │   ├── globals.css                — グローバルスタイル: Tailwind CSS と HeroUI スタイルのインポート
 │   │   ├── layout.tsx                 — ルートレイアウト: lang="ja"、ダークモードクラス、メタデータ、globals.css のインポート
-│   │   ├── actions.ts                 — Server Actions: addTodo（title・deadline・priority を todos テーブルへ挿入）、updateTodoPriority（todo の priority をインライン更新）
+│   │   ├── actions.ts                 — Server Actions: addTodo（title・deadline・priority を todos テーブルへ挿入）、updateTodoPriority（todo の priority をインライン更新）、deleteTodo（todo を id で削除）
 │   │   └── page.tsx                   — ホームページ（Server Component）: todos を createdAt 順に全件取得して TodosTable へ渡す
 │   ├── components/
 │   │   ├── AddTodoModal.tsx           — ToDo 追加モーダル（HeroUI Modal + Form）の Client Component: title・deadline・priority を入力
-│   │   └── TodosTable.tsx             — TanStack Table を使用した ToDo 一覧の Client Component: deadline カラムの表示（相対時間トグル・期限超過警告🔴）・priority カラムの表示（色分け・インライン編集ドロップダウン）・検索・ソート・ページネーション対応
+│   │   ├── ConfirmDialog.tsx          — 削除確認モーダルの Client Component: isOpen・isDeleting・onCancel・onConfirm を Props で受け取る汎用ダイアログ
+│   │   ├── PriorityCell.tsx           — 優先度インライン編集ドロップダウンの Client Component: Priority 型・PRIORITY_ORDER/CLASS 定数・PriorityCell コンポーネントを export
+│   │   ├── TodosTable.tsx             — TanStack Table を使用した ToDo 一覧の Client Component: 検索・ソート・カラム表示切替・右クリック削除メニューを提供
+│   │   └── useColumns.tsx             — TanStack Table の列定義カスタムフック: Todo 型・COLUMN_LABELS 定数・formatRelativeTime・useColumns(showRelative, onToggleRelative) を export
 │   ├── lib/
 │   │   └── db.ts                      — Drizzle ORM クライアントファクトリ: DATABASE_URL から postgres 接続を生成して返す
 │   └── schema.ts                      — Drizzle ORM スキーマ: todosPriority ENUM（low/medium/high）と todos テーブル（id, title, completed, createdAt, deadline, priority）を定義

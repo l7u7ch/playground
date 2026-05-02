@@ -1,8 +1,6 @@
 "use client";
 
-import { Button, ToggleButton } from "@heroui/react";
 import {
-	type ColumnDef,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
@@ -11,95 +9,11 @@ import {
 	useReactTable,
 	type VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useMemo, useState, useTransition } from "react";
-import { deleteTodo, updateTodoPriority } from "@/app/actions";
+import { useCallback, useEffect, useState, useTransition } from "react";
+import { deleteTodo } from "@/app/actions";
 import { AddTodoModal } from "@/components/AddTodoModal";
-
-type Priority = "critical" | "high" | "medium" | "low" | "lowest";
-
-type Todo = {
-	id: number;
-	title: string;
-	completed: boolean;
-	createdAt: Date;
-	deadline: Date | null;
-	priority: Priority;
-};
-
-const COLUMN_LABELS: Record<string, string> = {
-	id: "ID",
-	title: "タイトル",
-	completed: "完了",
-	createdAt: "作成日時",
-	priority: "優先度",
-	deadline: "締め切り",
-};
-
-const PRIORITY_ORDER: Record<Priority, number> = {
-	critical: 0,
-	high: 1,
-	medium: 2,
-	low: 3,
-	lowest: 4,
-};
-
-const PRIORITY_LABEL: Record<Priority, string> = {
-	critical: "Critical",
-	high: "High",
-	medium: "Medium",
-	low: "Low",
-	lowest: "Lowest",
-};
-
-const PRIORITY_CLASS: Record<Priority, string> = {
-	critical: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
-	high: "bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300",
-	medium:
-		"bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
-	low: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
-	lowest: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
-};
-
-function PriorityCell({ id, priority }: { id: number; priority: Priority }) {
-	const [isPending, startTransition] = useTransition();
-	return (
-		<select
-			value={priority}
-			disabled={isPending}
-			onChange={(e) => {
-				const next = e.target.value as Priority;
-				startTransition(() => {
-					updateTodoPriority(id, next);
-				});
-			}}
-			className={`cursor-pointer rounded border-0 px-2 py-0.5 text-xs font-medium disabled:opacity-50 ${PRIORITY_CLASS[priority]}`}
-		>
-			{(Object.keys(PRIORITY_LABEL) as Priority[]).map((key) => (
-				<option key={key} value={key}>
-					{PRIORITY_LABEL[key]}
-				</option>
-			))}
-		</select>
-	);
-}
-
-function formatRelativeTime(date: Date): string {
-	const diffMs = date.getTime() - Date.now();
-	const sign = diffMs >= 0 ? "+" : "-";
-	const abs = Math.abs(diffMs);
-
-	const totalMinutes = Math.floor(abs / 60_000);
-	const days = Math.floor(totalMinutes / 1440);
-	const hours = Math.floor((totalMinutes % 1440) / 60);
-	const minutes = totalMinutes % 60;
-
-	if (days > 0 && hours > 0) return `${sign}${days}日${hours}時間`;
-	if (days > 0) return `${sign}${days}日`;
-	if (hours > 0 && minutes > 0) return `${sign}${hours}時間${minutes}分`;
-	if (hours > 0) return `${sign}${hours}時間`;
-	if (minutes > 0) return `${sign}${minutes}分`;
-	return "±0分";
-}
+import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { COLUMN_LABELS, type Todo, useColumns } from "@/components/useColumns";
 
 type ContextMenuState = { x: number; y: number; todoId: number };
 
@@ -120,72 +34,11 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 		return () => document.removeEventListener("click", close);
 	}, []);
 
-	const columns = useMemo<ColumnDef<Todo>[]>(
-		() => [
-			{
-				accessorKey: "id",
-				header: "ID",
-			},
-			{
-				accessorKey: "title",
-				header: "タイトル",
-			},
-			{
-				accessorKey: "completed",
-				header: "完了",
-				cell: ({ getValue }) => (getValue() ? "✓" : "—"),
-			},
-			{
-				accessorKey: "createdAt",
-				header: "作成日時",
-				cell: ({ getValue }) => (getValue() as Date).toLocaleString("ja-JP"),
-			},
-			{
-				accessorKey: "priority",
-				header: "優先度",
-				sortingFn: (rowA, rowB) =>
-					PRIORITY_ORDER[rowA.original.priority] -
-					PRIORITY_ORDER[rowB.original.priority],
-				cell: ({ getValue, row }) => (
-					<PriorityCell
-						id={row.original.id}
-						priority={getValue() as Priority}
-					/>
-				),
-			},
-			{
-				accessorKey: "deadline",
-				header: () => (
-					<>
-						<ToggleButton
-							size="sm"
-							onClick={(e) => {
-								e.stopPropagation();
-								setShowRelative((prev) => !prev);
-							}}
-						>
-							{showRelative ? "A" : "B"}
-						</ToggleButton>
-						締め切り
-					</>
-				),
-				cell: ({ getValue, row }) => {
-					const v = getValue() as Date | null;
-					if (!v) return "—";
-					const isOverdue = v < new Date() && !row.original.completed;
-					const text = showRelative
-						? formatRelativeTime(v)
-						: v.toLocaleString("ja-JP");
-					return isOverdue ? (
-						<span className="inline-flex items-center gap-1">🔴 {text}</span>
-					) : (
-						text
-					);
-				},
-			},
-		],
-		[showRelative],
+	const onToggleRelative = useCallback(
+		() => setShowRelative((prev) => !prev),
+		[],
 	);
+	const columns = useColumns(showRelative, onToggleRelative);
 
 	const table = useReactTable({
 		data: rows,
@@ -312,38 +165,18 @@ export function TodosTable({ rows }: { rows: Todo[] }) {
 				</div>
 			)}
 
-			{isConfirmOpen && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-					<div className="w-80 rounded-lg bg-white p-6 shadow-xl dark:bg-gray-900">
-						<h2 className="mb-2 text-base font-semibold">削除の確認</h2>
-						<p className="mb-6 text-sm text-gray-600 dark:text-gray-400">
-							本当に削除しますか？
-						</p>
-						<div className="flex justify-end gap-2">
-							<button
-								type="button"
-								className="rounded border px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
-								onClick={() => setIsConfirmOpen(false)}
-							>
-								キャンセル
-							</button>
-							<Button
-								variant="danger"
-								isDisabled={isDeleting}
-								onPress={() => {
-									if (pendingDeleteId === null) return;
-									startDeleteTransition(async () => {
-										await deleteTodo(pendingDeleteId);
-										setIsConfirmOpen(false);
-									});
-								}}
-							>
-								{isDeleting ? "削除中..." : "削除"}
-							</Button>
-						</div>
-					</div>
-				</div>
-			)}
+			<ConfirmDialog
+				isOpen={isConfirmOpen}
+				isDeleting={isDeleting}
+				onCancel={() => setIsConfirmOpen(false)}
+				onConfirm={() => {
+					if (pendingDeleteId === null) return;
+					startDeleteTransition(async () => {
+						await deleteTodo(pendingDeleteId);
+						setIsConfirmOpen(false);
+					});
+				}}
+			/>
 		</>
 	);
 }
