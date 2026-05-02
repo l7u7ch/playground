@@ -19,6 +19,7 @@ type Todo = {
 	title: string;
 	completed: boolean;
 	createdAt: Date;
+	deadline: Date | null;
 };
 
 const columns: ColumnDef<Todo>[] = [
@@ -39,6 +40,14 @@ const columns: ColumnDef<Todo>[] = [
 		accessorKey: "createdAt",
 		header: "作成日時",
 		cell: ({ getValue }) => (getValue() as Date).toLocaleString("ja-JP"),
+	},
+	{
+		accessorKey: "deadline",
+		header: "締め切り",
+		cell: ({ getValue }) => {
+			const v = getValue() as Date | null;
+			return v ? v.toLocaleString("ja-JP") : "—";
+		},
 	},
 ];
 

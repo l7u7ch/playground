@@ -43,6 +43,11 @@ export function AddTodoModal() {
 											<Input name="title" placeholder="買い物に行く" />
 											<FieldError />
 										</TextField>
+										<TextField fullWidth>
+											<Label>締め切り</Label>
+											<Input name="deadline" type="datetime-local" />
+											<FieldError />
+										</TextField>
 									</Form>
 								</Modal.Body>
 								<Modal.Footer>

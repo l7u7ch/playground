@@ -5,8 +5,10 @@ import { todos } from "@/schema";
 
 export async function addTodo(formData: FormData) {
 	const title = formData.get("title") as string;
+	const deadlineRaw = formData.get("deadline") as string | null;
+	const deadline = deadlineRaw ? new Date(deadlineRaw) : undefined;
 
-	await getDb().insert(todos).values({ title });
+	await getDb().insert(todos).values({ title, deadline });
 
 	revalidatePath("/");
 }

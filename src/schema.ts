@@ -5,4 +5,5 @@ export const todos = pgTable("todos", {
 	title: text("title").notNull(),
 	completed: boolean("completed").notNull().default(false),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
+	deadline: timestamp("deadline"),
 });

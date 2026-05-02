@@ -1,6 +1,6 @@
 {
-	"id": "fbd1febe-b48f-475e-bc83-a9183520cefc",
-	"prevId": "8e6c1e2a-5622-43c9-9103-8b80b10db277",
+	"id": "7fa52035-fb7b-4d22-a95f-7dc3c22039b1",
+	"prevId": "fbd1febe-b48f-475e-bc83-a9183520cefc",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
@@ -33,6 +33,12 @@
 					"primaryKey": false,
 					"notNull": true,
 					"default": "now()"
+				},
+				"deadline": {
+					"name": "deadline",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": false
 				}
 			},
 			"indexes": {},
