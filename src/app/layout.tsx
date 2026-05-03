@@ -2,17 +2,17 @@ import "@/app/globals.css";
 import type { Metadata } from "next/types";
 
 export const metadata: Metadata = {
-	title: "MyApp",
+  title: "MyApp",
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang="ja" className="dark">
-			<body>{children}</body>
-		</html>
-	);
+  return (
+    <html lang="ja" className="dark">
+      <body>{children}</body>
+    </html>
+  );
 }
