@@ -26,26 +26,23 @@ export function EstimateCell({
 	estimate,
 }: {
 	id: number;
-	estimate: Estimate | null;
+	estimate: Estimate;
 }) {
 	const [isPending, startTransition] = useTransition();
-	const colorClass = estimate
-		? ESTIMATE_CLASS[estimate]
-		: "bg-gray-50 text-gray-400 dark:bg-gray-900 dark:text-gray-600";
+	const colorClass = ESTIMATE_CLASS[estimate];
 
 	return (
 		<select
-			value={estimate ?? ""}
+			value={estimate}
 			disabled={isPending}
 			onChange={(e) => {
-				const next = (e.target.value as Estimate) || null;
+				const next = e.target.value as Estimate;
 				startTransition(() => {
 					updateTodoEstimate(id, next);
 				});
 			}}
 			className={`cursor-pointer rounded border-0 px-2 py-0.5 text-xs font-medium disabled:opacity-50 ${colorClass}`}
 		>
-			<option value="">—</option>
 			{(Object.keys(ESTIMATE_LABEL) as Estimate[]).map((key) => (
 				<option key={key} value={key}>
 					{ESTIMATE_LABEL[key]}

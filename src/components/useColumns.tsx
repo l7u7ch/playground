@@ -18,7 +18,7 @@ export type Todo = {
 	createdAt: Date;
 	deadline: Date | null;
 	priority: Priority;
-	estimate: Estimate | null;
+	estimate: Estimate;
 };
 
 export const COLUMN_LABELS: Record<string, string> = {
@@ -88,7 +88,7 @@ export function useColumns(
 				cell: ({ getValue, row }) => (
 					<EstimateCell
 						id={row.original.id}
-						estimate={getValue() as Estimate | null}
+						estimate={getValue() as Estimate}
 					/>
 				),
 			},

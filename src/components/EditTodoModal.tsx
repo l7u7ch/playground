@@ -104,10 +104,9 @@ export function EditTodoModal({ todo, isOpen, onClose }: EditTodoModalProps) {
 											<select
 												id="edit-estimate-select"
 												name="estimate"
-												defaultValue={todo.estimate ?? ""}
+												defaultValue={todo.estimate}
 												className="w-full rounded border px-3 py-2 text-sm"
 											>
-												<option value="">未設定</option>
 												<option value="xs">XS</option>
 												<option value="s">S</option>
 												<option value="m">M</option>

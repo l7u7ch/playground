@@ -1,0 +1,97 @@
+{
+	"id": "93535024-9a39-41a0-b56b-f52a770d1835",
+	"prevId": "4f37c0c2-35f5-4e28-9545-a6c334e68696",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.todos": {
+			"name": "todos",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"status": {
+					"name": "status",
+					"type": "status",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'todo'"
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"deadline": {
+					"name": "deadline",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"priority": {
+					"name": "priority",
+					"type": "priority",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'medium'"
+				},
+				"estimate": {
+					"name": "estimate",
+					"type": "estimate",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'m'"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		}
+	},
+	"enums": {
+		"public.estimate": {
+			"name": "estimate",
+			"schema": "public",
+			"values": ["xs", "s", "m", "l", "xl"]
+		},
+		"public.priority": {
+			"name": "priority",
+			"schema": "public",
+			"values": ["critical", "high", "medium", "low", "lowest"]
+		},
+		"public.status": {
+			"name": "status",
+			"schema": "public",
+			"values": ["todo", "doing", "done"]
+		}
+	},
+	"schemas": {},
+	"sequences": {},
+	"roles": {},
+	"policies": {},
+	"views": {},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
+}

@@ -78,10 +78,9 @@ export function AddTodoModal() {
 											<select
 												id="estimate-select"
 												name="estimate"
-												defaultValue=""
+												defaultValue="m"
 												className="w-full rounded border px-3 py-2 text-sm"
 											>
-												<option value="">未設定</option>
 												<option value="xs">XS</option>
 												<option value="s">S</option>
 												<option value="m">M</option>

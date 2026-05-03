@@ -20,7 +20,7 @@ export async function updateTodo(id: number, formData: FormData) {
 	const priority = (formData.get("priority") as Priority) ?? "medium";
 	const status = (formData.get("status") as Status) ?? "todo";
 	const estimateRaw = formData.get("estimate") as Estimate | null;
-	const estimate = estimateRaw || null;
+	const estimate = estimateRaw || "m";
 
 	await getDb()
 		.update(todos)
@@ -30,10 +30,7 @@ export async function updateTodo(id: number, formData: FormData) {
 	revalidatePath("/");
 }
 
-export async function updateTodoEstimate(
-	id: number,
-	estimate: Estimate | null,
-) {
+export async function updateTodoEstimate(id: number, estimate: Estimate) {
 	await getDb().update(todos).set({ estimate }).where(eq(todos.id, id));
 	revalidatePath("/");
 }
@@ -61,7 +58,7 @@ export async function addTodo(formData: FormData) {
 			| "lowest"
 			| null) ?? "medium";
 	const estimateRaw = formData.get("estimate") as Estimate | null;
-	const estimate = estimateRaw || null;
+	const estimate = estimateRaw || "m";
 
 	await getDb().insert(todos).values({ title, deadline, priority, estimate });
 

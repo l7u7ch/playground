@@ -43,6 +43,13 @@
 			"when": 1777776281735,
 			"tag": "0005_oval_magneto",
 			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1777778126886,
+			"tag": "0006_faulty_centennial",
+			"breakpoints": true
 		}
 	]
 }

@@ -19,5 +19,5 @@ export const todos = pgTable("todos", {
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	deadline: timestamp("deadline"),
 	priority: priorityEnum("priority").notNull().default("medium"),
-	estimate: estimateEnum("estimate"),
+	estimate: estimateEnum("estimate").notNull().default("m"),
 });
