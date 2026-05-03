@@ -41,17 +41,25 @@ function formatRelativeTime(date: Date): string {
   const now = new Date();
   const sign = date >= now ? "+" : "-";
   const [start, end] = date >= now ? [now, date] : [date, now];
-  const { days = 0, hours = 0, minutes = 0 } = intervalToDuration({
+  const {
+    days = 0,
+    hours = 0,
+    minutes = 0,
+  } = intervalToDuration({
     start,
     end,
   });
 
-  if (days > 0 && hours > 0) return `${sign}${days}日${hours}時間`;
-  if (days > 0) return `${sign}${days}日`;
-  if (hours > 0 && minutes > 0) return `${sign}${hours}時間${minutes}分`;
-  if (hours > 0) return `${sign}${hours}時間`;
-  if (minutes > 0) return `${sign}${minutes}分`;
-  return "±0分";
+  const units: [number, string][] = [
+    [days, "日"],
+    [hours, "時間"],
+    [minutes, "分"],
+  ];
+  const parts = units
+    .filter(([v]) => v > 0)
+    .map(([v, u]) => `${v}${u}`)
+    .join("");
+  return parts ? `${sign}${parts}` : "±0分";
 }
 
 export function useColumns(showRelative: boolean): ColumnDef<Todo>[] {
@@ -98,18 +106,12 @@ export function useColumns(showRelative: boolean): ColumnDef<Todo>[] {
       {
         accessorKey: "deadline",
         header: "締め切り",
-        cell: ({ getValue, row }) => {
+        cell: ({ getValue }) => {
           const v = getValue() as Date | null;
           if (!v) return "—";
-          const isOverdue = v < new Date() && row.original.status !== "done";
-          const text = showRelative
+          return showRelative
             ? formatRelativeTime(v)
-            : v.toLocaleString("ja-JP");
-          return isOverdue ? (
-            <span className="inline-flex items-center gap-1">🔴 {text}</span>
-          ) : (
-            text
-          );
+            : format(v, "yyyy-MM-dd HH:mm");
         },
       },
       {
