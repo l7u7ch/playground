@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
+import { format, intervalToDuration } from "date-fns";
 import { useMemo } from "react";
 import {
   ESTIMATE_ORDER,
@@ -38,14 +38,13 @@ export const COLUMN_LABELS: Record<string, string> = {
 };
 
 function formatRelativeTime(date: Date): string {
-  const diffMs = date.getTime() - Date.now();
-  const sign = diffMs >= 0 ? "+" : "-";
-  const abs = Math.abs(diffMs);
-
-  const totalMinutes = Math.floor(abs / 60_000);
-  const days = Math.floor(totalMinutes / 1440);
-  const hours = Math.floor((totalMinutes % 1440) / 60);
-  const minutes = totalMinutes % 60;
+  const now = new Date();
+  const sign = date >= now ? "+" : "-";
+  const [start, end] = date >= now ? [now, date] : [date, now];
+  const { days = 0, hours = 0, minutes = 0 } = intervalToDuration({
+    start,
+    end,
+  });
 
   if (days > 0 && hours > 0) return `${sign}${days}日${hours}時間`;
   if (days > 0) return `${sign}${days}日`;
@@ -59,7 +58,6 @@ export function useColumns(showRelative: boolean): ColumnDef<Todo>[] {
   return useMemo<ColumnDef<Todo>[]>(
     () => [
       { accessorKey: "id", header: "ID" },
-      { accessorKey: "title", header: "タイトル" },
       {
         accessorKey: "status",
         header: "ステータス",
@@ -70,16 +68,7 @@ export function useColumns(showRelative: boolean): ColumnDef<Todo>[] {
           <StatusCell id={row.original.id} status={getValue() as Status} />
         ),
       },
-      {
-        accessorKey: "createdAt",
-        header: "作成日時",
-        cell: ({ getValue }) => format(getValue() as Date, "yyyy-MM-dd HH:mm"),
-      },
-      {
-        accessorKey: "updatedAt",
-        header: "更新日時",
-        cell: ({ getValue }) => format(getValue() as Date, "yyyy-MM-dd HH:mm"),
-      },
+      { accessorKey: "title", header: "タイトル" },
       {
         accessorKey: "priority",
         header: "優先度",
@@ -122,6 +111,16 @@ export function useColumns(showRelative: boolean): ColumnDef<Todo>[] {
             text
           );
         },
+      },
+      {
+        accessorKey: "createdAt",
+        header: "作成日時",
+        cell: ({ getValue }) => format(getValue() as Date, "yyyy-MM-dd HH:mm"),
+      },
+      {
+        accessorKey: "updatedAt",
+        header: "更新日時",
+        cell: ({ getValue }) => format(getValue() as Date, "yyyy-MM-dd HH:mm"),
       },
     ],
     [showRelative],
