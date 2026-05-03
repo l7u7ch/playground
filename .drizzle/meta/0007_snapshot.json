@@ -78,33 +78,17 @@
     "public.estimate": {
       "name": "estimate",
       "schema": "public",
-      "values": [
-        "xs",
-        "s",
-        "m",
-        "l",
-        "xl"
-      ]
+      "values": ["xs", "s", "m", "l", "xl"]
     },
     "public.priority": {
       "name": "priority",
       "schema": "public",
-      "values": [
-        "critical",
-        "high",
-        "medium",
-        "low",
-        "lowest"
-      ]
+      "values": ["critical", "high", "medium", "low", "lowest"]
     },
     "public.status": {
       "name": "status",
       "schema": "public",
-      "values": [
-        "todo",
-        "doing",
-        "done"
-      ]
+      "values": ["todo", "doing", "done"]
     }
   },
   "schemas": {},
