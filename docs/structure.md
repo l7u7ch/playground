@@ -1,8 +1,10 @@
 ---
 title: ディレクトリ構成
 description: src/ ディレクトリの構成と各ファイルの役割を示すドキュメント
-updated: 2026-05-03 08:36
+updated: 2026-05-03
 ---
+
+関連ドキュメント: [ユビキタス言語](./ubiquitous-language.md)
 
 ## 構成
 
