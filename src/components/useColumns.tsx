@@ -1,6 +1,5 @@
 "use client";
 
-import { ToggleButton } from "@heroui/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import {
@@ -53,10 +52,7 @@ function formatRelativeTime(date: Date): string {
   return "±0分";
 }
 
-export function useColumns(
-  showRelative: boolean,
-  onToggleRelative: () => void,
-): ColumnDef<Todo>[] {
+export function useColumns(showRelative: boolean): ColumnDef<Todo>[] {
   return useMemo<ColumnDef<Todo>[]>(
     () => [
       { accessorKey: "id", header: "ID" },
@@ -104,20 +100,7 @@ export function useColumns(
       },
       {
         accessorKey: "deadline",
-        header: () => (
-          <>
-            <ToggleButton
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleRelative();
-              }}
-            >
-              {showRelative ? "A" : "B"}
-            </ToggleButton>
-            締め切り
-          </>
-        ),
+        header: "締め切り",
         cell: ({ getValue, row }) => {
           const v = getValue() as Date | null;
           if (!v) return "—";
@@ -133,6 +116,6 @@ export function useColumns(
         },
       },
     ],
-    [showRelative, onToggleRelative],
+    [showRelative],
   );
 }

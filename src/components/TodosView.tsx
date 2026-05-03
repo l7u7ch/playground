@@ -12,12 +12,14 @@ import {
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { EditTodoModal } from "@/components/EditTodoModal";
+import { HeaderContextMenu } from "@/components/HeaderContextMenu";
 import { TodosContextMenu } from "@/components/TodosContextMenu";
 import { TodosToolbar } from "@/components/TodosToolbar";
 import { type Todo, useColumns } from "@/components/useColumns";
 import { deleteTodo } from "@/inbox/actions";
 
 type ContextMenuState = { x: number; y: number; todoId: number };
+type HeaderContextMenuState = { x: number; y: number; columnId: string };
 
 export function TodosView({ rows }: { rows: Todo[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -25,13 +27,18 @@ export function TodosView({ rows }: { rows: Todo[] }) {
   const [showRelative, setShowRelative] = useState(false);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
+  const [headerContextMenu, setHeaderContextMenu] =
+    useState<HeaderContextMenuState | null>(null);
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDeleting, startDeleteTransition] = useTransition();
 
   useEffect(() => {
-    const close = () => setContextMenu(null);
+    const close = () => {
+      setContextMenu(null);
+      setHeaderContextMenu(null);
+    };
     document.addEventListener("click", close);
     return () => document.removeEventListener("click", close);
   }, []);
@@ -40,7 +47,7 @@ export function TodosView({ rows }: { rows: Todo[] }) {
     () => setShowRelative((prev) => !prev),
     [],
   );
-  const columns = useColumns(showRelative, onToggleRelative);
+  const columns = useColumns(showRelative);
 
   const table = useReactTable({
     data: rows,
@@ -70,8 +77,15 @@ export function TodosView({ rows }: { rows: Todo[] }) {
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    onClick={header.column.getToggleSortingHandler()}
-                    className="cursor-pointer border px-4 py-2 text-left select-none"
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      setHeaderContextMenu({
+                        x: e.clientX,
+                        y: e.clientY,
+                        columnId: header.column.id,
+                      });
+                    }}
+                    className="border px-4 py-2 text-left select-none"
                   >
                     <div className="flex items-center justify-between">
                       {flexRender(
@@ -114,6 +128,36 @@ export function TodosView({ rows }: { rows: Todo[] }) {
           </tbody>
         </table>
       </div>
+
+      {headerContextMenu &&
+        (() => {
+          const col = table.getColumn(headerContextMenu.columnId);
+          if (!col) return null;
+          return (
+            <HeaderContextMenu
+              x={headerContextMenu.x}
+              y={headerContextMenu.y}
+              onSortAsc={() => {
+                col.toggleSorting(false);
+                setHeaderContextMenu(null);
+              }}
+              onSortDesc={() => {
+                col.toggleSorting(true);
+                setHeaderContextMenu(null);
+              }}
+              onClearSort={() => {
+                col.clearSorting();
+                setHeaderContextMenu(null);
+              }}
+              isDeadlineColumn={headerContextMenu.columnId === "deadline"}
+              showRelative={showRelative}
+              onToggleRelative={() => {
+                onToggleRelative();
+                setHeaderContextMenu(null);
+              }}
+            />
+          );
+        })()}
 
       {contextMenu && (
         <TodosContextMenu
