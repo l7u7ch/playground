@@ -7,7 +7,6 @@ import {
   getSortedRowModel,
   type SortingState,
   useReactTable,
-  type VisibilityState,
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
@@ -17,6 +16,7 @@ import { TodosContextMenu } from "@/components/TodosContextMenu";
 import { TodosToolbar } from "@/components/TodosToolbar";
 import { type Todo, useColumns } from "@/components/useColumns";
 import { deleteTodo } from "@/inbox/actions";
+import { useColumnStore } from "@/stores/columnStore";
 
 type ContextMenuState = { x: number; y: number; todoId: number };
 type HeaderContextMenuState = { x: number; y: number; columnId: string };
@@ -25,7 +25,8 @@ export function TodosView({ rows }: { rows: Todo[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [showRelative, setShowRelative] = useState(false);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const columnVisibility = useColumnStore((s) => s.columnVisibility);
+  const setColumnVisibility = useColumnStore((s) => s.setColumnVisibility);
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const [headerContextMenu, setHeaderContextMenu] =
     useState<HeaderContextMenuState | null>(null);
