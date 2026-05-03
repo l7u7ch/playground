@@ -12,7 +12,7 @@
     "@heroui/react": "^3.0.3",
     "@heroui/styles": "^3.0.3",
     "@supabase/ssr": "^0.10.2",
-    "@supabase/supabase-js": "^2.105.0",
+    "@supabase/supabase-js": "^2.105.1",
     "@tanstack/react-table": "^8.21.3",
     "drizzle-orm": "^0.45.2",
     "next": "^16.2.4",
@@ -23,16 +23,16 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.13",
+    "@biomejs/biome": "^2.4.14",
     "@tailwindcss/postcss": "^4.2.4",
     "@types/node": "^20.19.39",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "drizzle-kit": "^0.31.10",
-    "postcss": "^8.5.12",
+    "postcss": "^8.5.13",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "supabase": "^2.95.5",
+    "supabase": "^2.98.0",
     "tailwindcss": "^4.2.4",
     "typescript": "^5.9.3"
   }
