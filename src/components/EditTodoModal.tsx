@@ -94,6 +94,27 @@ export function EditTodoModal({ todo, isOpen, onClose }: EditTodoModalProps) {
 												<option value="lowest">Lowest</option>
 											</select>
 										</div>
+										<div className="flex w-full flex-col gap-1">
+											<label
+												htmlFor="edit-estimate-select"
+												className="text-sm font-medium"
+											>
+												見積
+											</label>
+											<select
+												id="edit-estimate-select"
+												name="estimate"
+												defaultValue={todo.estimate ?? ""}
+												className="w-full rounded border px-3 py-2 text-sm"
+											>
+												<option value="">未設定</option>
+												<option value="xs">XS</option>
+												<option value="s">S</option>
+												<option value="m">M</option>
+												<option value="l">L</option>
+												<option value="xl">XL</option>
+											</select>
+										</div>
 									</Form>
 								</Modal.Body>
 								<Modal.Footer>

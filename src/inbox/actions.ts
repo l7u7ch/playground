@@ -11,6 +11,7 @@ export async function deleteTodo(id: number) {
 
 type Priority = "critical" | "high" | "medium" | "low" | "lowest";
 export type Status = "todo" | "doing" | "done";
+export type Estimate = "xs" | "s" | "m" | "l" | "xl";
 
 export async function updateTodo(id: number, formData: FormData) {
 	const title = formData.get("title") as string;
@@ -18,12 +19,22 @@ export async function updateTodo(id: number, formData: FormData) {
 	const deadline = deadlineRaw ? new Date(deadlineRaw) : null;
 	const priority = (formData.get("priority") as Priority) ?? "medium";
 	const status = (formData.get("status") as Status) ?? "todo";
+	const estimateRaw = formData.get("estimate") as Estimate | null;
+	const estimate = estimateRaw || null;
 
 	await getDb()
 		.update(todos)
-		.set({ title, deadline: deadline ?? undefined, priority, status })
+		.set({ title, deadline: deadline ?? undefined, priority, status, estimate })
 		.where(eq(todos.id, id));
 
+	revalidatePath("/");
+}
+
+export async function updateTodoEstimate(
+	id: number,
+	estimate: Estimate | null,
+) {
+	await getDb().update(todos).set({ estimate }).where(eq(todos.id, id));
 	revalidatePath("/");
 }
 
@@ -49,8 +60,10 @@ export async function addTodo(formData: FormData) {
 			| "low"
 			| "lowest"
 			| null) ?? "medium";
+	const estimateRaw = formData.get("estimate") as Estimate | null;
+	const estimate = estimateRaw || null;
 
-	await getDb().insert(todos).values({ title, deadline, priority });
+	await getDb().insert(todos).values({ title, deadline, priority, estimate });
 
 	revalidatePath("/");
 }

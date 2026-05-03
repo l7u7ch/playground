@@ -10,6 +10,8 @@ export const priorityEnum = pgEnum("priority", [
 	"lowest",
 ]);
 
+export const estimateEnum = pgEnum("estimate", ["xs", "s", "m", "l", "xl"]);
+
 export const todos = pgTable("todos", {
 	id: serial("id").primaryKey(),
 	title: text("title").notNull(),
@@ -17,4 +19,5 @@ export const todos = pgTable("todos", {
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	deadline: timestamp("deadline"),
 	priority: priorityEnum("priority").notNull().default("medium"),
+	estimate: estimateEnum("estimate"),
 });

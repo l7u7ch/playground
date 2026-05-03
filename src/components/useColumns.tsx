@@ -3,6 +3,7 @@
 import { ToggleButton } from "@heroui/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { type Estimate, EstimateCell } from "@/components/EstimateCell";
 import {
 	PRIORITY_ORDER,
 	type Priority,
@@ -17,6 +18,7 @@ export type Todo = {
 	createdAt: Date;
 	deadline: Date | null;
 	priority: Priority;
+	estimate: Estimate | null;
 };
 
 export const COLUMN_LABELS: Record<string, string> = {
@@ -26,6 +28,7 @@ export const COLUMN_LABELS: Record<string, string> = {
 	createdAt: "作成日時",
 	priority: "優先度",
 	deadline: "締め切り",
+	estimate: "見積",
 };
 
 function formatRelativeTime(date: Date): string {
@@ -76,6 +79,16 @@ export function useColumns(
 					<PriorityCell
 						id={row.original.id}
 						priority={getValue() as Priority}
+					/>
+				),
+			},
+			{
+				accessorKey: "estimate",
+				header: "見積",
+				cell: ({ getValue, row }) => (
+					<EstimateCell
+						id={row.original.id}
+						estimate={getValue() as Estimate | null}
 					/>
 				),
 			},

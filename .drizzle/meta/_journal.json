@@ -36,6 +36,13 @@
 			"when": 1777715168943,
 			"tag": "0004_pink_retro_girl",
 			"breakpoints": true
+		},
+		{
+			"idx": 5,
+			"version": "7",
+			"when": 1777776281735,
+			"tag": "0005_oval_magneto",
+			"breakpoints": true
 		}
 	]
 }
