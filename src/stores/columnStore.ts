@@ -1,6 +1,6 @@
+import type { VisibilityState } from "@tanstack/react-table";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { type VisibilityState } from "@tanstack/react-table";
 
 type ColumnStore = {
   columnVisibility: VisibilityState;
