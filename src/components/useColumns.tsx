@@ -3,13 +3,17 @@
 import { ToggleButton } from "@heroui/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { type Estimate, EstimateCell } from "@/components/EstimateCell";
+import {
+  ESTIMATE_ORDER,
+  type Estimate,
+  EstimateCell,
+} from "@/components/EstimateCell";
 import {
   PRIORITY_ORDER,
   type Priority,
   PriorityCell,
 } from "@/components/PriorityCell";
-import { type Status, StatusCell } from "@/components/StatusCell";
+import { STATUS_ORDER, type Status, StatusCell } from "@/components/StatusCell";
 
 export type Todo = {
   id: number;
@@ -60,6 +64,9 @@ export function useColumns(
       {
         accessorKey: "status",
         header: "ステータス",
+        sortingFn: (rowA, rowB) =>
+          STATUS_ORDER[rowA.original.status] -
+          STATUS_ORDER[rowB.original.status],
         cell: ({ getValue, row }) => (
           <StatusCell id={row.original.id} status={getValue() as Status} />
         ),
@@ -85,6 +92,9 @@ export function useColumns(
       {
         accessorKey: "estimate",
         header: "見積",
+        sortingFn: (rowA, rowB) =>
+          ESTIMATE_ORDER[rowA.original.estimate] -
+          ESTIMATE_ORDER[rowB.original.estimate],
         cell: ({ getValue, row }) => (
           <EstimateCell
             id={row.original.id}

@@ -11,6 +11,12 @@ const STATUS_LABEL: Record<Status, string> = {
   done: "Done",
 };
 
+export const STATUS_ORDER: Record<Status, number> = {
+  todo: 0,
+  doing: 1,
+  done: 2,
+};
+
 export const STATUS_CLASS: Record<Status, string> = {
   todo: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
   doing: "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",

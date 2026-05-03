@@ -13,6 +13,14 @@ const ESTIMATE_LABEL: Record<Estimate, string> = {
   xl: "XL",
 };
 
+export const ESTIMATE_ORDER: Record<Estimate, number> = {
+  xs: 0,
+  s: 1,
+  m: 2,
+  l: 3,
+  xl: 4,
+};
+
 export const ESTIMATE_CLASS: Record<Estimate, string> = {
   xs: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
   s: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
