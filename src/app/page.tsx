@@ -9,7 +9,7 @@ export default async function Home() {
 
 	return (
 		<div className="min-h-screen py-12">
-			<div className="mx-auto max-w-3xl rounded-sm p-6 shadow-md">
+			<div className="mx-auto max-w-7xl rounded-sm p-6 shadow-md">
 				<TodosView rows={rows} />
 			</div>
 		</div>
