@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import { useMemo } from "react";
 import {
   ESTIMATE_ORDER,
@@ -19,6 +20,7 @@ export type Todo = {
   title: string;
   status: Status;
   createdAt: Date;
+  updatedAt: Date;
   deadline: Date | null;
   priority: Priority;
   estimate: Estimate;
@@ -29,6 +31,7 @@ export const COLUMN_LABELS: Record<string, string> = {
   title: "タイトル",
   status: "ステータス",
   createdAt: "作成日時",
+  updatedAt: "更新日時",
   priority: "優先度",
   deadline: "締め切り",
   estimate: "見積",
@@ -70,7 +73,12 @@ export function useColumns(showRelative: boolean): ColumnDef<Todo>[] {
       {
         accessorKey: "createdAt",
         header: "作成日時",
-        cell: ({ getValue }) => (getValue() as Date).toLocaleString("ja-JP"),
+        cell: ({ getValue }) => format(getValue() as Date, "yyyy-MM-dd HH:mm"),
+      },
+      {
+        accessorKey: "updatedAt",
+        header: "更新日時",
+        cell: ({ getValue }) => format(getValue() as Date, "yyyy-MM-dd HH:mm"),
       },
       {
         accessorKey: "priority",

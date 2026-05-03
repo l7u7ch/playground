@@ -17,6 +17,7 @@ export const todos = pgTable("todos", {
   title: text("title").notNull(),
   status: statusEnum("status").notNull().default("todo"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
   deadline: timestamp("deadline"),
   priority: priorityEnum("priority").notNull().default("medium"),
   estimate: estimateEnum("estimate").notNull().default("m"),
