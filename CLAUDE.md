@@ -4,6 +4,8 @@
 - パスエイリアス: `@/*` → `./src/*`
 - 作業完了前に必ず以下を実行すること
   - `bun run build`（ビルド確認）
-  - `bunx biome check --write`（lint / format）
+  - `bun run format`（lint / format）
+- `.drizzle/` ディレクトリは編集しないこと
+- `bunx drizzle-kit generate` や `bunx drizzle-kit migrate` などの drizzle-kit コマンドは実行しないこと。必要な場合はユーザーに依頼すること
 - 日本語で記述すること（専門用語は原著のまま）
 - コードの変更に伴い `docs/` の内容が古くなった場合は必ず更新すること
