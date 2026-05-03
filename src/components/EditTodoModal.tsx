@@ -58,6 +58,24 @@ export function EditTodoModal({ todo, isOpen, onClose }: EditTodoModalProps) {
 										</TextField>
 										<div className="flex w-full flex-col gap-1">
 											<label
+												htmlFor="edit-status-select"
+												className="text-sm font-medium"
+											>
+												ステータス
+											</label>
+											<select
+												id="edit-status-select"
+												name="status"
+												defaultValue={todo.status}
+												className="w-full rounded border px-3 py-2 text-sm"
+											>
+												<option value="todo">ToDo</option>
+												<option value="doing">Doing</option>
+												<option value="done">Done</option>
+											</select>
+										</div>
+										<div className="flex w-full flex-col gap-1">
+											<label
 												htmlFor="edit-priority-select"
 												className="text-sm font-medium"
 											>

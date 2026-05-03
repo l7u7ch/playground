@@ -8,11 +8,12 @@ import {
 	type Priority,
 	PriorityCell,
 } from "@/components/PriorityCell";
+import { type Status, StatusCell } from "@/components/StatusCell";
 
 export type Todo = {
 	id: number;
 	title: string;
-	completed: boolean;
+	status: Status;
 	createdAt: Date;
 	deadline: Date | null;
 	priority: Priority;
@@ -21,7 +22,7 @@ export type Todo = {
 export const COLUMN_LABELS: Record<string, string> = {
 	id: "ID",
 	title: "タイトル",
-	completed: "完了",
+	status: "ステータス",
 	createdAt: "作成日時",
 	priority: "優先度",
 	deadline: "締め切り",
@@ -54,9 +55,11 @@ export function useColumns(
 			{ accessorKey: "id", header: "ID" },
 			{ accessorKey: "title", header: "タイトル" },
 			{
-				accessorKey: "completed",
-				header: "完了",
-				cell: ({ getValue }) => (getValue() ? "✓" : "—"),
+				accessorKey: "status",
+				header: "ステータス",
+				cell: ({ getValue, row }) => (
+					<StatusCell id={row.original.id} status={getValue() as Status} />
+				),
 			},
 			{
 				accessorKey: "createdAt",
@@ -95,7 +98,7 @@ export function useColumns(
 				cell: ({ getValue, row }) => {
 					const v = getValue() as Date | null;
 					if (!v) return "—";
-					const isOverdue = v < new Date() && !row.original.completed;
+					const isOverdue = v < new Date() && row.original.status !== "done";
 					const text = showRelative
 						? formatRelativeTime(v)
 						: v.toLocaleString("ja-JP");

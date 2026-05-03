@@ -1,11 +1,6 @@
-import {
-	boolean,
-	pgEnum,
-	pgTable,
-	serial,
-	text,
-	timestamp,
-} from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+
+export const statusEnum = pgEnum("status", ["todo", "doing", "done"]);
 
 export const priorityEnum = pgEnum("priority", [
 	"critical",
@@ -18,7 +13,7 @@ export const priorityEnum = pgEnum("priority", [
 export const todos = pgTable("todos", {
 	id: serial("id").primaryKey(),
 	title: text("title").notNull(),
-	completed: boolean("completed").notNull().default(false),
+	status: statusEnum("status").notNull().default("todo"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	deadline: timestamp("deadline"),
 	priority: priorityEnum("priority").notNull().default("medium"),
